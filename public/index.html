@@ -16,6 +16,24 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .messages li {
+        padding: 8px 12px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        max-width: 70%;
+        word-wrap: break-word;
+        line-height: 1.4;
+      }
+      .my-message {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+      }
+      .other-message {
+        background-color: #f1f1f1;
+        align-self: flex-start;
       }
       .form {
         display: flex;
@@ -54,6 +72,7 @@
           e.preventDefault()
           const input = document.querySelector('.input')
           const text = input.value
+          if (text.trim() === "") return;
           ws.send(JSON.stringify({ id: myId, text }))
           input.value = ''
           input.focus()
@@ -65,10 +84,13 @@
           const messageList = document.querySelector('.messages')
           const li = document.createElement('li')
           if (id === myId) {
-           li.textContent = `(${id})自分:` + text
+            li.textContent = text;
+            li.classList.add("my-message");
           } else {
-            li.textContent = id + ': ' + text
+            li.textContent = id + ": " + text;
+            li.classList.add("other-message");
           }
+          
           messageList.appendChild(li)
         }
 
